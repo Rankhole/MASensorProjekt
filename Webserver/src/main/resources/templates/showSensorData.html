@@ -1,0 +1,113 @@
+<!-- chart.jsp -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sensor Data</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <script th:inline="javascript" type="text/javascript">
+        window.onload = function() {
+
+            var sensorData = [[${sensorData}]]
+            console.log(sensorData)
+
+            var temperatures = [];
+            var humidities = [];
+
+            for(i = 0; i < sensorData.length; i++){
+                console.log(sensorData[i])
+                sensor = sensorData[i]
+                console.log(sensor)
+                temperatures.push({
+                    x: sensor.dateTime,
+                    y: sensor.temperature
+                })
+                humidities.push({
+                    x: sensor.dateTime,
+                    y: sensor.humidity
+                })
+            }
+
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,
+                zoomEnabled: true,
+                title: {
+                    text: "Sensor data"
+                },
+                axisX: {
+                    crosshair: {
+                        enabled: true,
+                        snapToDataPoint: true,
+                        valueFormatString: "DD MMM"
+                    }
+                },
+                axisY1: {
+                    title: "Temperature (in C)",
+                    crosshair: {
+                        enabled: true,
+                        snapToDataPoint: true,
+                        valueFormatString: "#,##0.0"
+                    }
+                },
+                axisY2: {
+                    title: "Humidity (in %)",
+                    crosshair: {
+                        enabled: true,
+                        snapToDataPoint: true,
+                        valueFormatString: "#,##0"
+                    }
+                },
+                data: [{
+                    type: "line",
+                    xValueFormatString: "DD MMM",
+                    xValueType: "dateTime",
+                    dataPoints: temperatures
+                }, {
+                    type: "line",
+                    xValueFormatString: "DD MMM",
+                    xValueType: "dateTime",
+                    dataPoints: humidities
+                }]
+            });
+
+
+            // for (var i = 0; i < data.length; i++) {
+            //     dataPoints.push({
+            //         x: new Date(data[i].x),
+            //         y: data[i].y
+            //     });
+            // }
+            chart.render();
+        }
+    </script>
+    <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</head>
+
+<body>
+<h2>Sensor data (temperature, humidity)</h2>
+
+<div id="chartContainer"></div>
+
+
+<table class="table table-striped">
+    <thead class="thead">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Population</th>
+        </tr>
+    </thead>
+
+    <tr th:each="sensor : ${sensorData}">
+        <td th:text="${sensor.id}">Id</td>
+        <td th:text="${sensor.dateTime}">Time of read data</td>
+        <td th:text="${sensor.temperature}">Temperature</td>
+        <td th:text="${sensor.humidity}">Humidity</td>
+    </tr>
+</table>
+
+</body>
+</html>
