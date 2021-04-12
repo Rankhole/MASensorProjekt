@@ -29,7 +29,14 @@ Das Resultat ist eine JSON mit den Daten, die wie folgt ausschaut:
 ```
 Das wars auch schon! Wie man den Raspberry Pi exposed ist natürlich jedem selbst überlassen. Bei mir hängt er lokal an eine statisch gemappte IP, sodass alle meine Geräte im Router ihn über 192.168.2.156 erreichen können.
 
-## Spring Boot Webserver
+# Spring Boot Webserver
+Benötigt wird:
+
+- Maven (zum Bauen)
+- java 11 (zum Ausführen der .jar Datei)
+- PostgreSQL mit Datenbank „sensordb“, welche lokal auf dem selben Rechner läuft, sowie default user „postgres” ohne Passwort -> dies kann Verändert werden, muss aber in der „application.properties” Datei im Resource Ordner angepasst werden.
+
+## Ausführen
 Um den Webserver auszuführen:
 ```
 cd Webserver
