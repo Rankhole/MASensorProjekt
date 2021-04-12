@@ -28,3 +28,15 @@ Das Resultat ist eine JSON mit den Daten, die wie folgt ausschaut:
 }
 ```
 Das wars auch schon! Wie man den Raspberry Pi exposed ist natürlich jedem selbst überlassen. Bei mir hängt er lokal an eine statisch gemappte IP, sodass alle meine Geräte im Router ihn über 192.168.2.156 erreichen können.
+
+## Spring Boot Webserver
+Um den Webserver auszuführen:
+```
+cd Webserver
+mvn clean package
+java -jar target/Webserver-0.0.1-SNAPSHOT.jar
+```
+
+Vorher muss jedoch PostgreSQL installiert sein, und die Datenbank „sensordb“ existieren. Des weiteren muss die IP des Raspberry Pi in der Klasse src/main/java/de/htwberlin/webserver/controller/SensorController.java in der Variable „readSensorUrl“ angepasst werden. Je nach eigener Netzwerkkonfiguration ist die IP natürlich verschieden.
+
+Des weiteren kann die Variable „updateInterval” angepasst werden, um öfters/seltener die Sensordaten zu pollen.
